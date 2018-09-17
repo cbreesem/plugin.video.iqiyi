@@ -71,7 +71,13 @@ def getContentList(name,id,url='----------------iqiyi--.html'):
         if pageCount is not None:
             pages = pageCount.find_all('a')
             pages = [(i.getText(),i.get('href').split('/')[-1]) for i in pages]
-            print(pages)
+            # print(pages)
+
+        content = html.find('div',class_='wrapper-piclist')
+        content = content.find_all('li')
+        for i in content:
+            print(i)
+            break
     finally:
         pass
 
