@@ -9,9 +9,9 @@ import simplejson
 import json
 
 # Plugin constants
-__addonname__ = "爱奇艺视频"
-__addonid__   = "plugin.video.iqiyi"
-__addon__     = xbmcaddon.Addon(id=__addonid__)
+# __addonname__ = "爱奇艺视频"
+# __addonid__   = "plugin.video.iqiyi"
+# __addon__     = xbmcaddon.Addon(id=__addonid__)
 
 headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
            'Accept-Encoding': 'gzip, deflate, sdch, br',
@@ -86,9 +86,9 @@ def getContentList(id,url='----------------iqiyi--.html'):
         links = re.compile('<a href="/www/'+id+'/(.+?)</a>', re.DOTALL).findall(i)
         links = [l.split('">') for l in links]
 
-        li = xbmcgui.ListItem('%s(选择)' % option[0][:-1])
-        u = sys.argv[0]+"?mode=4&id="+urllib.quote_plus(id)+"&url="+urllib.quote_plus(json.dumps(links))
-        xbmcplugin.addDirectoryItem(int(sys.argv[1]), u, li, True)
+        # li = xbmcgui.ListItem('%s(选择)' % option[0][:-1])
+        # u = sys.argv[0]+"?mode=4&id="+urllib.quote_plus(id)+"&url="+urllib.quote_plus(json.dumps(links))
+        # xbmcplugin.addDirectoryItem(int(sys.argv[1]), u, li, True)
 
     # 获取页码列表
     pages = re.compile('<a data-key="up|down" class="a1"|data-search-page="item"(.+?)</a>', re.DOTALL).findall(html)
@@ -120,12 +120,12 @@ def getContentList(id,url='----------------iqiyi--.html'):
 
         # print uri,name
 
-        li = xbmcgui.ListItem(name, iconImage = '', thumbnailImage = thumb)
-        u = sys.argv[0]+"?mode="+str(mode)+"&id="+urllib.quote_plus(pid)+"&thumb="+urllib.quote_plus(thumb)+"&uri="+urllib.quote_plus(uri)
-        li.setInfo(type = "Video", infoLabels = {"Title":name, "Cast":cast, "Rating":rating})
-        xbmcplugin.addDirectoryItem(int(sys.argv[1]), u, li, isdir)
+        # li = xbmcgui.ListItem(name, iconImage = '', thumbnailImage = thumb)
+        # u = sys.argv[0]+"?mode="+str(mode)+"&id="+urllib.quote_plus(pid)+"&thumb="+urllib.quote_plus(thumb)+"&uri="+urllib.quote_plus(uri)
+        # li.setInfo(type = "Video", infoLabels = {"Title":name, "Cast":cast, "Rating":rating})
+        # xbmcplugin.addDirectoryItem(int(sys.argv[1]), u, li, isdir)
 
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    # xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
 def getSeriesList(uri):
     html = getHttpData(uri)
@@ -138,24 +138,24 @@ def getSeriesList(uri):
 
         uri  = re.compile('href="([^"]*)"').search(i).group(1)
         filmLength = re.compile('<span class="mod-listTitle_right">(\d+?):(\d+?)</span>').findall(i)
-        # print filmLength,name.strip(),number.strip()
+        print filmLength,name.strip(),number.strip()
 
-        li = xbmcgui.ListItem('%s-%s' % (name.strip(),number.strip()), iconImage = '', thumbnailImage = thumb)
-        li.setInfo(type = "Video", infoLabels = {"Title":p_name, "Director":p_director, "Cast":p_cast, "Plot":p_plot, "Year":p_year})
-        u = sys.argv[0] + "?mode=3&name=" + urllib.quote_plus(p_name) + "&id=" + urllib.quote_plus(p_id)+ "&thumb=" + urllib.quote_plus(thumb)
-        xbmcplugin.addDirectoryItem(int(sys.argv[1]), u, li, False, totalItems)
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    #     li = xbmcgui.ListItem('%s-%s' % (name.strip(),number.strip()), iconImage = '', thumbnailImage = thumb)
+    #     li.setInfo(type = "Video", infoLabels = {"Title":p_name, "Director":p_director, "Cast":p_cast, "Plot":p_plot, "Year":p_year})
+    #     u = sys.argv[0] + "?mode=3&name=" + urllib.quote_plus(p_name) + "&id=" + urllib.quote_plus(p_id)+ "&thumb=" + urllib.quote_plus(thumb)
+    #     xbmcplugin.addDirectoryItem(int(sys.argv[1]), u, li, False, totalItems)
+    # xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
 
-params = getParams()
-mode = params.get('mode')
-name = params.get('name')
-id = params.get('id')
+# params = getParams()
+# mode = params.get('mode')
+# name = params.get('name')
+# id = params.get('id')
 
-if mode == None: getRootList()
-elif mode == '1': getContentList(id, params.get('uri'))
-elif mode == '2': getSeriesList(params.get('uri'))
+# if mode == None: getRootList()
+# elif mode == '1': getContentList(id, params.get('uri'))
+# elif mode == '2': getSeriesList(params.get('uri'))
 
-# getContentList('1')
-# getSeriesList('http://www.iqiyi.com/a_19rrj5x3zh.html#vfrm=2-4-0-1')
-# getSeriesList('http://www.iqiyi.com/a_19rrh5cl15.html#vfrm=2-4-0-1')
+getContentList('1')
+getSeriesList('http://www.iqiyi.com/a_19rrj5x3zh.html#vfrm=2-4-0-1')
+getSeriesList('http://www.iqiyi.com/a_19rrh5cl15.html#vfrm=2-4-0-1')
